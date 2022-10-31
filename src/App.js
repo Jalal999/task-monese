@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<StartPage setPlayers={setPlayers} />} />
           <Route path="/game" element={<GameBoard players={players} />} />
-          <Route path="/scoreboard" element={<Scoreboard />} />
+          <Route path="/scoreboard" element={<Scoreboard players={players} />} />
         </Routes>
       </div>
     </Provider>
