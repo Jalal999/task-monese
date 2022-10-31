@@ -1,0 +1,56 @@
+.initialPage {
+    position: absolute;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    &__form {
+        margin: auto;
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 35px;
+
+        &__title {
+            font-family: Roboto, sans-serif;
+            font-size: 20px;
+            margin: 10px;
+        }
+        
+        &__inputField {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            & label {
+                font-family: cursive;
+            }
+        }
+
+        &__playerName {
+            display: block;
+            margin: 5px 5px;
+
+            &__errMsg {
+                color: red;
+                font-weight: 600;
+                font-size: 12px;
+            }
+        }
+
+        &__submitBtn {
+            width: 100%;
+            background-color: rgb(0, 0, 251);
+            color: white;
+            border: 0;
+            padding: 5px;
+            font-family: monospace, sans-serif;
+            font-size: 15px;
+            border-radius: 5px;
+            margin: 10px;
+        }
+    }
+}
