@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import './GameBoardStyle.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTicTac } from '../../redux/cellSlice';
 
 var currentPositions = new Array;
 const GameBoard = ({ players }) => {
     const newPlayers = players.newPlayers
     const [turn, setTurn] = useState(newPlayers['firstPlayer']);
-    const [cells, setCells] = useState(Array(9).fill(''));
+
+    const dispatch = useDispatch();
+    const boardPrevState = useSelector(state=>state.cell);
+    const [cells, setCells] = useState(boardPrevState.cells);
+
     const [winner, setWinner] = useState('');
     const [positions, setPositions] = useState([]);
     const navigate = useNavigate();
@@ -20,10 +26,12 @@ const GameBoard = ({ players }) => {
         if (cells[num] === '' && (winner === null || winner === '' || winner === undefined)) {
             if (turn === newPlayers['firstPlayer']) {
                 squares[num] = 'X';
+                dispatch(addTicTac({position: num, ticTac: 'X'}));
                 setTurn(newPlayers['secondPlayer']);
                 currentPositions.push({ player: turn, position: num })
             } else {
                 squares[num] = 'O';
+                dispatch(addTicTac({position: num, ticTac: 'O'}));
                 setTurn(newPlayers['firstPlayer']);
                 currentPositions.push({ player: turn, position: num })
             }
@@ -85,6 +93,7 @@ const GameBoard = ({ players }) => {
                             :
                             <p className='board__player'>Player: <span><i>{turn}</i></span></p>
                 }
+                <Link to='/scoreboard'>Scoreboard</Link>
                 <table>
 
                     <tbody>

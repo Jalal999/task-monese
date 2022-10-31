@@ -4,18 +4,22 @@ import { useState } from 'react';
 import { Routes, Route, Link } from "react-router-dom";
 import GameBoard from './components/GameBoard';
 import Scoreboard from './components/Scoreboard';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 function App() {
   const [players, setPlayers] = useState({});
 
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<StartPage setPlayers={setPlayers}/>} />
-        <Route path="/game" element={<GameBoard players={players}/>} />
-        <Route path="/scoreboard" element={<Scoreboard />} />
-      </Routes>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<StartPage setPlayers={setPlayers} />} />
+          <Route path="/game" element={<GameBoard players={players} />} />
+          <Route path="/scoreboard" element={<Scoreboard />} />
+        </Routes>
+      </div>
+    </Provider>
   );
 }
 
