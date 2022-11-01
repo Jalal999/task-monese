@@ -8,7 +8,7 @@ First, you need to download the code from the repository and open in Visual Stud
 
 ### `npm install'
 
-It will install all needed dependencies to able to run the app.
+It will install all needed dependencies and npm modules to able to run the app.
 
 ### `npm start'
 
