@@ -1,38 +1,38 @@
 import { useState } from 'react';
 import './GameBoardStyle.scss';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTicTac } from '../../redux/cellSlice';
+import { changeTurn, defineWinner } from '../../redux/playerSlice';
+import Navigation from '../Navigation';
 
 var currentPositions = new Array;
 const GameBoard = ({ players }) => {
     const newPlayers = players.newPlayers
-    const [turn, setTurn] = useState(newPlayers['firstPlayer']);
-
     const dispatch = useDispatch();
-    const boardPrevState = useSelector(state=>state.cell);
+    const boardPrevState = useSelector(state => state.cell);
+    const playerPrevState = useSelector(state => state.player);
+
     const [cells, setCells] = useState(boardPrevState.cells);
+    const [turn, setTurn] = useState(playerPrevState.turn === '' ? newPlayers['firstPlayer'] : playerPrevState.turn);
+    const [winner, setWinner] = useState(playerPrevState.winner === '' ? '' : playerPrevState.winner);
 
-    const [winner, setWinner] = useState('');
     const [positions, setPositions] = useState([]);
-    const navigate = useNavigate();
-
-    const goToScoreboard = () => {
-        navigate('/scoreboard', { replace: true });
-    }
 
     const handleClick = (num) => {
         let squares = [...cells];
         if (cells[num] === '' && (winner === null || winner === '' || winner === undefined)) {
             if (turn === newPlayers['firstPlayer']) {
                 squares[num] = 'X';
-                dispatch(addTicTac({position: num, ticTac: 'X'}));
+                dispatch(addTicTac({ position: num, ticTac: 'X' }));
                 setTurn(newPlayers['secondPlayer']);
+                dispatch(changeTurn(newPlayers['secondPlayer']))
                 currentPositions.push({ player: turn, position: num })
             } else {
                 squares[num] = 'O';
-                dispatch(addTicTac({position: num, ticTac: 'O'}));
+                dispatch(addTicTac({ position: num, ticTac: 'O' }));
                 setTurn(newPlayers['firstPlayer']);
+                dispatch(changeTurn(newPlayers['firstPlayer']))
                 currentPositions.push({ player: turn, position: num })
             }
         }
@@ -67,8 +67,10 @@ const GameBoard = ({ players }) => {
                 ) {
                     if (squares[pattern[0]] === 'X') {
                         setWinner(newPlayers['firstPlayer']);
+                        dispatch(defineWinner(newPlayers['firstPlayer']))
                     } else if (squares[pattern[0]] === 'O') {
                         setWinner(newPlayers['secondPlayer']);
+                        dispatch(defineWinner(newPlayers['secondPlayer']))
                     }
                 }
             });
@@ -82,20 +84,17 @@ const GameBoard = ({ players }) => {
     return (
         <>
             <div className='board'>
+                <Navigation />
                 {
                     winner ?
-                        <>
-                            <p className='board__player'>Winner: <i>{winner}</i></p>
-                            <button onClick={goToScoreboard} className='board__btn'>Go To Scoreboard</button>
-                        </>
+                        <p className='board__player'>Winner: <i>{winner}</i></p>
                         :
-                        winner === '' && positions.length === 9 ? <p className='board__player'>Winner: Tie</p>
+                        winner === '' && positions.length === 9 ?
+                            <p className='board__player'>Winner: Tie</p>
                             :
                             <p className='board__player'>Player: <span><i>{turn}</i></span></p>
                 }
-                <Link to='/scoreboard'>Scoreboard</Link>
                 <table>
-
                     <tbody>
                         <tr>
                             <BoardCell num={0} />

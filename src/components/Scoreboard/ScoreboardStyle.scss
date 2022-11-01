@@ -1,0 +1,12 @@
+.scoreboard {
+
+    &__table {
+        margin: auto;
+
+        & td {
+            border: 1px solid grey;
+            width: 80px;
+            height: 80px;
+        }
+    }
+}
