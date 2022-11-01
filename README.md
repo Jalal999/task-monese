@@ -31,3 +31,7 @@ Installs the React Router library(version 6) which is used in my app to navigate
 ### `npm install @reduxjs/toolkit`
 
 Installs toolset dependencies of Redux Toolkit which is used to keep data of game board and players' condition to control the state of the app.
+
+### `npm install react react-redux`
+
+Installs needed configuration/dependencies to be eligible to use redux toolkit's features.
