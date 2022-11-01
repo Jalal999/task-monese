@@ -6,8 +6,9 @@ import { changeTurn, defineWinner, resetPlayer } from '../../redux/playerSlice';
 import Navigation from '../Navigation';
 import { useNavigate } from 'react-router-dom';
 import { HistoryContext } from '../../context/historyContext';
+import BoardTable from './BoardTable';
+import { winningPaths } from '../../winningPaths';
 
-var currentPositions = new Array;
 const GameBoard = ({ players }) => {
     const newPlayers = players.newPlayers
     const dispatch = useDispatch();
@@ -22,7 +23,6 @@ const GameBoard = ({ players }) => {
     const [positions, setPositions] = useState([]);
 
     const [history, setHistory] = useContext(HistoryContext);
-    console.log(history);
 
     const handleClick = (num) => {
         let squares = [...cells];
@@ -32,38 +32,20 @@ const GameBoard = ({ players }) => {
                 dispatch(addTicTac({ position: num, ticTac: 'X' }));
                 setTurn(newPlayers['secondPlayer']);
                 dispatch(changeTurn(newPlayers['secondPlayer']))
-                currentPositions.push({ player: turn, position: num })
+                setPositions(positions => [...positions, {player: turn, position: num}])
             } else {
                 squares[num] = 'O';
                 dispatch(addTicTac({ position: num, ticTac: 'O' }));
                 setTurn(newPlayers['firstPlayer']);
                 dispatch(changeTurn(newPlayers['firstPlayer']))
-                currentPositions.push({ player: turn, position: num })
+                setPositions(positions => [...positions, {player: turn, position: num}])
             }
         }
         checkForWinner(squares);
         setCells(squares);
-        setPositions(currentPositions)
     }
 
     const checkForWinner = (squares) => {
-        let winningPaths = {
-            leftToRight: [
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-            ],
-            upToDown: [
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-            ],
-            diagnol: [
-                [0, 4, 8],
-                [2, 4, 6],
-            ],
-        };
-
         for (let path in winningPaths) {
             winningPaths[path].forEach((pattern) => {
                 if (
@@ -73,20 +55,16 @@ const GameBoard = ({ players }) => {
                     if (squares[pattern[0]] === 'X') {
                         setWinner(newPlayers['firstPlayer']);
                         dispatch(defineWinner(newPlayers['firstPlayer']))
-                        setHistory(history => [...history, { players: newPlayers, winner: winner }]);
+                        setHistory(history => [...history, { players: newPlayers, winner: newPlayers['firstPlayer'] }]);
                     } else if (squares[pattern[0]] === 'O') {
                         setWinner(newPlayers['secondPlayer']);
                         dispatch(defineWinner(newPlayers['secondPlayer']))
-                        setHistory(history => [...history, { players: newPlayers, winner: winner }]);
+                        setHistory(history => [...history, { players: newPlayers, winner: newPlayers['secondPlayer'] }]);
                     }
                 }
             });
         }
     };
-
-    const BoardCell = ({ num }) => {
-        return <td style={{ color: cells[num] === 'X' ? 'blue' : 'red' }} onClick={() => handleClick(num)}>{cells[num]}</td>
-    }
 
     const restartGame = () => {
         navigate('/', { replace: true });
@@ -107,29 +85,10 @@ const GameBoard = ({ players }) => {
                             :
                             <p className='board__player'>Player: <span><i>{turn}</i></span></p>
                 }
-                <table>
-                    <tbody>
-                        <tr>
-                            <BoardCell num={0} />
-                            <BoardCell num={1} />
-                            <BoardCell num={2} />
-                        </tr>
-                        <tr>
-                            <BoardCell num={3} />
-                            <BoardCell num={4} />
-                            <BoardCell num={5} />
-                        </tr>
-                        <tr>
-                            <BoardCell num={6} />
-                            <BoardCell num={7} />
-                            <BoardCell num={8} />
-                        </tr>
-                    </tbody>
-                    {winner ? <button onClick={restartGame} className='board__btn'>Restart Game</button> : null}
-                </table>
+                <BoardTable cells={cells} handleClick={handleClick} />
+                {winner ? <button onClick={restartGame} className='board__btn'>Restart Game</button> : null}
             </div>
         </>
     )
 }
-
 export default GameBoard;
