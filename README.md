@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Tic-tac-toe game created by Jalal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created by Jalal Mammadli. To play the game, first you need to enter two names for the players. When the game is finished, "Restart Game" pops up on top of the game board table. While playing, you can navigate to Scoreboard and vice versa. When one of players wins, its score is increased in Scoreboard. If you restart the game by clicking the button, play the game again, it will take the previous score of the players(if they have played before), and will update that score. Also previous winner player will be first player even if it is given as a second player.
 
-## Available Scripts
+## Guideline to run the app
 
-In the project directory, you can run:
+First, you need to download the code from the repository and open in Visual Studio Code. Then, to able to run the code, you need to write the below script in the terminal:
 
-### `npm start`
+### `npm install'
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+It will install all needed dependencies to able to run the app.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `npm start'
 
-### `npm test`
+It will start running the application in development mode. It will either open http://localhost:3000 in your default browser when it finishes configuration, or you might need to open it in your browser.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+-----------------------------
+**Note: If the above guideline does NOT help to run the app, below installations can help you...**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In case if it says error for the libraries/dependencies used in the project, below are the scripts that might be helpful to solve it.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm install react-hook-form'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Will install all needed dependencies to be able to use useForm hook.
 
-### `npm run eject`
+### `npm install react-router-dom@6`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Installs the React Router library(version 6) which is used in my app to navigate between pages/components.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `npm install @reduxjs/toolkit`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Installs toolset dependencies of Redux Toolkit which is used to keep data of game board and players' condition to control the state of the app.
