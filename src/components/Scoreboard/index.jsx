@@ -3,7 +3,7 @@ import './ScoreboardStyle.scss';
 import { HistoryContext } from "../../context/historyContext";
 import { useContext } from "react";
 
-const Scoreboard = ({players}) => {
+const Scoreboard = () => {
     const [history, setHistory] = useContext(HistoryContext);
     console.log(history)
     const firstPlayer = history[history.length - 1].players['firstPlayer'];

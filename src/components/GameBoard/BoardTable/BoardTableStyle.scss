@@ -1,0 +1,13 @@
+table {
+    position: absolute;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    border-collapse: collapse;
+
+    & td {
+        border: 1px solid grey;
+        width: 100px;
+        height: 100px;
+    }
+}
