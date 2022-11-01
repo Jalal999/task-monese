@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import './GameBoardStyle.scss';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTicTac } from '../../redux/cellSlice';
-import { changeTurn, defineWinner } from '../../redux/playerSlice';
+import { addTicTac, reset } from '../../redux/cellSlice';
+import { changeTurn, defineWinner, resetPlayer } from '../../redux/playerSlice';
 import Navigation from '../Navigation';
+import { useNavigate } from 'react-router-dom';
+import { HistoryContext } from '../../context/historyContext';
 
 var currentPositions = new Array;
 const GameBoard = ({ players }) => {
@@ -16,8 +17,12 @@ const GameBoard = ({ players }) => {
     const [cells, setCells] = useState(boardPrevState.cells);
     const [turn, setTurn] = useState(playerPrevState.turn === '' ? newPlayers['firstPlayer'] : playerPrevState.turn);
     const [winner, setWinner] = useState(playerPrevState.winner === '' ? '' : playerPrevState.winner);
-
+    
+    const navigate = useNavigate();
     const [positions, setPositions] = useState([]);
+
+    const [history, setHistory] = useContext(HistoryContext);
+    console.log(history);
 
     const handleClick = (num) => {
         let squares = [...cells];
@@ -68,9 +73,11 @@ const GameBoard = ({ players }) => {
                     if (squares[pattern[0]] === 'X') {
                         setWinner(newPlayers['firstPlayer']);
                         dispatch(defineWinner(newPlayers['firstPlayer']))
+                        setHistory(history => [...history, { players: newPlayers, winner: winner }]);
                     } else if (squares[pattern[0]] === 'O') {
                         setWinner(newPlayers['secondPlayer']);
                         dispatch(defineWinner(newPlayers['secondPlayer']))
+                        setHistory(history => [...history, { players: newPlayers, winner: winner }]);
                     }
                 }
             });
@@ -79,6 +86,12 @@ const GameBoard = ({ players }) => {
 
     const BoardCell = ({ num }) => {
         return <td style={{ color: cells[num] === 'X' ? 'blue' : 'red' }} onClick={() => handleClick(num)}>{cells[num]}</td>
+    }
+
+    const restartGame = () => {
+        navigate('/', { replace: true });
+        dispatch(reset());
+        dispatch(resetPlayer());
     }
 
     return (
@@ -112,6 +125,7 @@ const GameBoard = ({ players }) => {
                             <BoardCell num={8} />
                         </tr>
                     </tbody>
+                    {winner ? <button onClick={restartGame} className='board__btn'>Restart Game</button> : null}
                 </table>
             </div>
         </>

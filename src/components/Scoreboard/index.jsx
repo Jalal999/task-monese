@@ -1,8 +1,26 @@
 import Navigation from "../Navigation";
 import './ScoreboardStyle.scss';
+import { HistoryContext } from "../../context/historyContext";
+import { useContext } from "react";
 
 const Scoreboard = ({players}) => {
-    const newPlayers = players.newPlayers
+    // const newPlayers = players.newPlayers
+    const [history, setHistory] = useContext(HistoryContext);
+    const firstPlayer = history[history.length - 1].players['firstPlayer'];
+    const secondPlayer = history[history.length - 1].players['secondPlayer'];
+
+    var firstPlayerWins = 0;
+    var secondPlayerWins = 0;
+
+    history.map(game=>{
+        if((game.players['firstPlayer'] === firstPlayer && game.players['secondPlayer'] === secondPlayer) || (game.players['secondPlayer'] === firstPlayer || game.players['firstPlayer'] === secondPlayer)) {
+            if(game.winner === firstPlayer) {
+                firstPlayerWins++;
+            } else {
+                secondPlayerWins++;
+            }
+        }
+    })
 
     return (
         <>
@@ -11,14 +29,14 @@ const Scoreboard = ({players}) => {
                 <table className="scoreboard__table">
                     <tbody>
                         <tr>
-                            <th>{newPlayers['firstPlayer']}</th>
+                            <th>{firstPlayer}</th>
                             <th>Tie</th>
-                            <th>{newPlayers['secondPlayer']}</th>
+                            <th>{secondPlayer}</th>
                         </tr>
                         <tr>
-                            <td>1</td>
+                            <td>{firstPlayerWins}</td>
                             <td>2</td>
-                            <td>1</td>
+                            <td>{secondPlayerWins}</td>
                         </tr>
                     </tbody>
                 </table>

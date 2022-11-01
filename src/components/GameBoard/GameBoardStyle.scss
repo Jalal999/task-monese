@@ -29,11 +29,15 @@
     }
 
     &__btn {
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        margin-top: 10px;
         color: white;
         background: blue;
         border: 1px solid blue;
         border-radius: 5px;
-        font-size: 15px;
-        padding: 10px;
+        font-size: 16px;
+        padding: 5px;
     }
 }

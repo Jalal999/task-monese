@@ -13,8 +13,12 @@ const playerSlice = createSlice({
         changeTurn: (state, action) => {
             state.turn = action.payload;
         },
+        resetPlayer: (state) => {
+            state.turn = '';
+            state.winner = '';
+        }
     }
 });
 
-export const { defineWinner, changeTurn, } = playerSlice.actions;
+export const { defineWinner, changeTurn, resetPlayer} = playerSlice.actions;
 export default playerSlice.reducer;
