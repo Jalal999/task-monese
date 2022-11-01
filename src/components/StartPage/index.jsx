@@ -1,19 +1,35 @@
 import { useForm } from "react-hook-form";
 import "./StartPageStyle.scss";
 import { useNavigate } from 'react-router-dom';
+import { HistoryContext } from "../../context/historyContext";
+import { useContext } from "react";
 
-
-const StartPage = ({setPlayers}) => {
+const StartPage = ({ setPlayers }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+
+    const [history, setHistory] = useContext(HistoryContext);
 
     const onSubmit = async (data) => {
         console.log(data)
         const firstPlayer = data.firstPlayer;
         const secondPlayer = data.secondPlayer;
-        const newPlayers = {"firstPlayer": firstPlayer, "secondPlayer": secondPlayer};
-        setPlayers(() => ( { newPlayers } ));
+        const newPlayers = { "firstPlayer": firstPlayer, "secondPlayer": secondPlayer };
+
+        for(let i = history.length - 1; i >= 0; i--) {
+            if((history[i].players.firstPlayer === newPlayers['firstPlayer'] && history[i].players.secondPlayer === newPlayers['secondPlayer'])
+                || (history[i].players['secondPlayer'] === newPlayers['firstPlayer'] && history[i].players['firstPlayer'] === newPlayers['secondPlayer'])) {
+                if(history[i].winner === newPlayers['secondPlayer']) {
+                    let temp = newPlayers['firstPlayer']
+                    newPlayers['firstPlayer'] = history[i].winner;
+                    newPlayers['secondPlayer'] = temp;
+                    break;
+                }
+            }
+        }
+        setPlayers(() => ({ newPlayers }));
         navigate('/game', { replace: true });
+        setHistory(history => [...history, { players: newPlayers, winner: '' }]);
     }
 
     return (
