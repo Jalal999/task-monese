@@ -7,7 +7,6 @@ import Navigation from '../Navigation';
 import { useNavigate } from 'react-router-dom';
 import { HistoryContext } from '../../context/historyContext';
 
-var currentPositions = new Array;
 const GameBoard = ({ players }) => {
     const newPlayers = players.newPlayers
     const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const GameBoard = ({ players }) => {
     const [positions, setPositions] = useState([]);
 
     const [history, setHistory] = useContext(HistoryContext);
-    console.log(history);
 
     const handleClick = (num) => {
         let squares = [...cells];
@@ -32,18 +30,17 @@ const GameBoard = ({ players }) => {
                 dispatch(addTicTac({ position: num, ticTac: 'X' }));
                 setTurn(newPlayers['secondPlayer']);
                 dispatch(changeTurn(newPlayers['secondPlayer']))
-                currentPositions.push({ player: turn, position: num })
+                setPositions(positions => [...positions, {player: turn, position: num}])
             } else {
                 squares[num] = 'O';
                 dispatch(addTicTac({ position: num, ticTac: 'O' }));
                 setTurn(newPlayers['firstPlayer']);
                 dispatch(changeTurn(newPlayers['firstPlayer']))
-                currentPositions.push({ player: turn, position: num })
+                setPositions(positions => [...positions, {player: turn, position: num}])
             }
         }
         checkForWinner(squares);
         setCells(squares);
-        setPositions(currentPositions)
     }
 
     const checkForWinner = (squares) => {
@@ -73,11 +70,11 @@ const GameBoard = ({ players }) => {
                     if (squares[pattern[0]] === 'X') {
                         setWinner(newPlayers['firstPlayer']);
                         dispatch(defineWinner(newPlayers['firstPlayer']))
-                        setHistory(history => [...history, { players: newPlayers, winner: winner }]);
+                        setHistory(history => [...history, { players: newPlayers, winner: newPlayers['firstPlayer'] }]);
                     } else if (squares[pattern[0]] === 'O') {
                         setWinner(newPlayers['secondPlayer']);
                         dispatch(defineWinner(newPlayers['secondPlayer']))
-                        setHistory(history => [...history, { players: newPlayers, winner: winner }]);
+                        setHistory(history => [...history, { players: newPlayers, winner: newPlayers['secondPlayer'] }]);
                     }
                 }
             });
@@ -131,5 +128,4 @@ const GameBoard = ({ players }) => {
         </>
     )
 }
-
 export default GameBoard;

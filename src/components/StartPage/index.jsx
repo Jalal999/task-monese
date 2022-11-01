@@ -11,7 +11,6 @@ const StartPage = ({ setPlayers }) => {
     const [history, setHistory] = useContext(HistoryContext);
 
     const onSubmit = async (data) => {
-        console.log(data)
         const firstPlayer = data.firstPlayer;
         const secondPlayer = data.secondPlayer;
         const newPlayers = { "firstPlayer": firstPlayer, "secondPlayer": secondPlayer };
